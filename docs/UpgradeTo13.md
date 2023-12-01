@@ -1,5 +1,9 @@
 ## v13升级步骤
 
++ think-core 的 composer.json 移除了以下扩展包，若项目有使用请自行安装并修改相关代码
+  ```php
+  "guzzlehttp/guzzle": "^6.3",
+  ```
 + 若 composer.json 文件有 require-dev，则修改
   + 从v13版本的think-core composer.json文件中找到require-dev的内容，替换掉脚手架的
     ```php
