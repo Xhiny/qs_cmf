@@ -298,41 +298,58 @@ class InitDatabase extends Migration
         ];
         DB::table('qs_user')->insert($user);
 
+        $sql = DB::table('qs_node as n3')
+            ->select("n3.id", "n1.name as module", "n2.name as controller", "n3.name as action",
+                DB::raw("CONCAT(n1.name, '.', n2.name, '.', n3.name) as node"),
+                DB::raw("CONCAT(n1.title, '.', n2.title, '.', n3.title) as title")
+            )
+            ->join('qs_node as n2', function (\Illuminate\Database\Query\JoinClause $join) {
+                $join->on( 'n3.pid', '=', 'n2.id')
+                    ->where('n2.status', 1)
+                    ->where('n2.level', 2);
+            })
+            ->join('qs_node as n1', function (\Illuminate\Database\Query\JoinClause $join) {
+                $join->on( 'n2.pid', '=', 'n1.id')
+                    ->where('n1.status', 1)
+                    ->where('n1.level', 1);
+            })
+            ->where('n3.status', 1)
+            ->where('n3.level', 3)
+            ->toRawSql();
+
         $node_v = <<<SQL
 create view qs_node_v as
-select n3.id, n1.name `module`,n2.name `controller`,n3.name `action`, CONCAT(n1.name, ".", n2.name, ".", n3.name) node, CONCAT(n1.title, ".", n2.title, ".", n3.title) title 
-from qs_node n3
-inner join qs_node n2 on n2.id=n3.pid and n2.status=1 and n2.level=2
-inner join qs_node n1 on n1.id=n2.pid and n1.status=1 and n1.level=1
-where n3.level=3 and n3.status=1;
+{$sql}
 SQL;
         DB::unprepared($node_v);
 
-        $db = env('DB_DATABASE');
-        $create_kill_all_procedure_sql = <<<SQL
-create procedure kill_all()
-BEGIN
-DECLARE done INT DEFAULT FALSE;
-  DECLARE p_id INT;
-  DECLARE cur CURSOR FOR SELECT ID FROM information_schema.processlist WHERE
-id<>CONNECTION_ID() and COMMAND <> 'Sleep' AND user <> 'system user' AND USER <> 'event_scheduler' and DB='{$db}' and info like 'select %';
-  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-  OPEN cur;
-
-  loop_kill:
-  LOOP
-    FETCH cur INTO p_id;
-    IF done THEN
-      LEAVE loop_kill;
-    END IF;
-    kill p_id;
-  END LOOP;
-
-  CLOSE cur;
-END
-SQL;
-        \Illuminate\Support\Facades\DB::unprepared($create_kill_all_procedure_sql);
+        // 查看用户连接以及杀死连接的会话
+        // select pg_terminate_backend(pid) from pg_stat_activity where state='active' and datname = '{db}';
+//        $db = env('DB_DATABASE');
+//        $create_kill_all_procedure_sql = <<<SQL
+//create procedure kill_all()
+//BEGIN
+//DECLARE done INT DEFAULT FALSE;
+//  DECLARE p_id INT;
+//  DECLARE cur CURSOR FOR SELECT ID FROM information_schema.processlist WHERE
+//id<>CONNECTION_ID() and COMMAND <> 'Sleep' AND user <> 'system user' AND USER <> 'event_scheduler' and DB='{$db}' and info like 'select %';
+//  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+//
+//  OPEN cur;
+//
+//  loop_kill:
+//  LOOP
+//    FETCH cur INTO p_id;
+//    IF done THEN
+//      LEAVE loop_kill;
+//    END IF;
+//    kill p_id;
+//  END LOOP;
+//
+//  CLOSE cur;
+//END
+//SQL;
+//        \Illuminate\Support\Facades\DB::unprepared($create_kill_all_procedure_sql);
 
     }
 
@@ -343,6 +360,8 @@ SQL;
      */
     public function down()
     {
+        DB::unprepared('drop view if exists qs_node_v');
+
         Schema::dropIfExists('qs_access');
         Schema::dropIfExists('qs_addons');
         Schema::dropIfExists('qs_area');
@@ -361,7 +380,6 @@ SQL;
         Schema::dropIfExists('qs_schedule');
         Schema::dropIfExists('qs_syslogs');
         Schema::dropIfExists('qs_user');
-        DB::unprepared('drop view qs_node_v');
-        DB::unprepared('drop procedure kill_all');
+//        DB::unprepared('drop procedure kill_all');
     }
 }

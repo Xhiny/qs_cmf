@@ -111,7 +111,7 @@ class RoleController extends GyListController
         $data = $node->getNode($map);
 
         if (!in_array($data['id'], $node_arr)) {
-            $data_arr[] = array('role_id' => $role_id, 'node_id' => $data['id'], 'level' => $data['level'], 'module' => $data['name']);
+            $data_arr[] = array('role_id' => (int)$role_id, 'node_id' => (int)$data['id'], 'level' => (int)$data['level'], 'module' => $data['name']);
             $node_arr[] = $data['id'];
         }
 

@@ -19,7 +19,7 @@ class UserController extends GyListController
         // 搜索
         $keyword = I('keyword', '', 'string');
         $condition = array('like', '%' . $keyword . '%');
-        $map['id|nick_name|email|telephone'] = array(
+        $map['nick_name|email|telephone'] = array(
             $condition,
             $condition,
             $condition,
@@ -40,9 +40,9 @@ class UserController extends GyListController
         }
 
         $data_list = $user_model->getListForPage($map, $page->nowPage, $page->listRows, 'register_date desc');
-        foreach ($data_list as &$data) {
-            $role_ids = D('RoleUser')->where('user_id=' . $data['id'])->getField('role_id', true);
-            if ($role_ids) {
+        foreach($data_list as &$data){
+            $role_ids = D('RoleUser')->where(['user_id' => (string)$data['id']])->getField('role_id', true);
+            if($role_ids){
                 $role_map['id'] = array('in', $role_ids);
                 $role_map['status'] = DBCont::NORMAL_STATUS;
                 $data['role'] = D('Role')->where($role_map)->getField('name', true);

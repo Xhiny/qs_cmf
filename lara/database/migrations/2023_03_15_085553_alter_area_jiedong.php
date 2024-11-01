@@ -26,7 +26,7 @@ class AlterAreaJiedong extends Migration
     public function up()
     {
         //
-        DB::unprepared("UPDATE `qs_area` SET `cname` = '揭东区' WHERE id = 445221;");
+        DB::table('qs_area')->where('id', 445221)->update(['cname' => '揭东区']);
     }
 
     /**
@@ -37,7 +37,7 @@ class AlterAreaJiedong extends Migration
     public function down()
     {
         //
-        DB::unprepared("UPDATE `qs_area` SET `cname` = '揭东县' WHERE id = 445221;");
+        DB::table('qs_area')->where('id', 445221)->update(['cname' => '揭东县']);
     }
 
     public function afterCmmUp()
