@@ -2,7 +2,7 @@ import {ProForm, ProFormText, ProFormTextArea,} from "@ant-design/pro-components
 import {Col, Form, Tree} from "antd";
 import {useRef} from "react";
 import uniqueId from "lodash/uniqueId";
-import http from "@quansitech/antd-admin/lib/http";
+import {http} from "@quansitech/antd-admin";
 import assign from "lodash/assign";
 
 export default function (props: {

@@ -147,7 +147,7 @@ class RoleController extends GyListController
             $this->_genAccessList();
 
             if (C('ANTD_ADMIN_BUILDER_ENABLE')) {
-                Inertia::getInstance()->share('layoutProps.metaTitle', '新增用户组');
+                Inertia::share('layoutProps.metaTitle', '新增用户组');
                 $this->setActiveNid(36);
                 $this->assign('nid', 36);
                 $this->inertia('Role/Form', [
@@ -212,7 +212,7 @@ class RoleController extends GyListController
             $vo['auth'] = $auth_arr;
 
             if (C('ANTD_ADMIN_BUILDER_ENABLE')) {
-                Inertia::getInstance()->share('layoutProps.metaTitle', '编辑用户组');
+                Inertia::share('layoutProps.metaTitle', '编辑用户组');
                 $this->setActiveNid(36);
                 $this->assign('nid', 36);
                 $this->inertia('Role/Form', [

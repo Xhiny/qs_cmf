@@ -14,7 +14,7 @@
 <block name="script">
     <script>
         $(function () {
-            $('head title:not([inertia])').remove()
+            $('head title:not([inertia])').remove();
 
             $('.sidebar-menu li a').on('click', function (e) {
                 e.preventDefault();
@@ -23,7 +23,7 @@
                     return false;
                 }
                 $('.sidebar-menu li').removeClass('active');
-                var that = this
+                var that = this;
                 window.$qsContainer.routerNavigateTo($(this).attr('href'), {
                     onSuccess() {
                         $(that).parents('li').addClass('active');

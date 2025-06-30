@@ -1,9 +1,18 @@
 import {createInertiaApp, router} from '@inertiajs/react';
 import {createRoot} from 'react-dom/client';
-import Layout from "@quansitech/antd-admin/components/Layout";
+import {container, Layout} from "@quansitech/antd-admin";
 import {ReactNode} from "react";
-import "@quansitech/antd-admin/lib/container";
-import {App as AntdApp} from "antd";
+import "./extra";
+
+if (typeof window !== 'undefined') {
+    ;((globalThis: any) => {
+        if (globalThis.$qsContainer) {
+            return;
+        }
+
+        globalThis.$qsContainer = container
+    })(window);
+}
 
 router.on('invalid', ev => {
     // 返回html时直接跳转
@@ -23,9 +32,7 @@ createInertiaApp({
     },
     setup({el, App, props}) {
         createRoot(el).render(
-            <AntdApp>
                 <App {...props} />
-            </AntdApp>
         )
     },
 })

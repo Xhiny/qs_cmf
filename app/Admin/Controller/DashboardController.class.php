@@ -8,8 +8,8 @@ class DashboardController extends GyController{
     
     public function index(){
         if (C('ANTD_ADMIN_BUILDER_ENABLE')) {
-            Inertia::getInstance()->share('layoutProps.metaTitle', '网站概况');
-            Inertia::getInstance()->render('Dashboard/Index', [
+            Inertia::share('layoutProps.metaTitle', '网站概况');
+            $this->inertia('Dashboard/Index', [
 
             ]);
             return;

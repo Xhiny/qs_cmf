@@ -1,6 +1,6 @@
 # qscmf
 
-![lincense](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
+![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 ![Pull request welcome](https://img.shields.io/badge/pr-welcome-green.svg?style=flat-square)
 
@@ -278,6 +278,10 @@ php artisan migrate:reset --no-cmd
   
    delete($name) //删除配置
 
+## Antd Admin后台
+
+[传送门](https://github.com/quansitech/antd-admin/blob/main/Readme.md)
+
 ## 后台JS
 
 [传送门](https://github.com/quansitech/qs_cmf/blob/master/docs/BackendJs.md)
@@ -343,25 +347,6 @@ npm run build:backend
       });
     </script>
 ```
-
-## 数据库帮助函数
-
-generator
-
-> 低内存消耗迭代函数
-> 
-> 参数 
-> 
-> 1. $map 查询参数 默认为空数组
-> 2. $count 一次查询的数据量，越大占用的内存会大，但运行效率会更高，根据情况灵活调整 默认为 1
-> 
-> 举例
-> 
-> ```php
->   foreach(D("Content")->generator([], 200) as $ent){
->      var_dump($ent);
->   }
-> ```
 
 ## 权限功能
 
@@ -568,9 +553,6 @@ REQUEST_URI 获取方向代理前的REQUEST_URI值
 ### TRACE_ERROR
 env增加了TRACE_ERROR配置，如果希望在debug关闭的模式下能收集到错误的报错位置，可以设置为true。这样就无需开启debug模式，也能收集到错误的报错位置。减少日志负担。
 
-### 后台使用react构建页面
-[传送门](https://github.com/quansitech/qs_cmf/blob/master/react-admin/README.md)
-
 ### vite构建前后台资源
 
 [传送门](./docs/Vite.md)
@@ -583,6 +565,6 @@ env增加了TRACE_ERROR配置，如果希望在debug关闭的模式下能收集�
 
 由于工作量大，文档会逐步补全。
 
-## lincense
+## license
 
 [MIT License](https://github.com/tiderjian/lara-for-tp/blob/master/LICENSE.MIT) AND [996ICU License](https://github.com/tiderjian/lara-for-tp/blob/master/LICENSE.996ICU)

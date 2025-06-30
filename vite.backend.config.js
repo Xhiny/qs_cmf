@@ -1,7 +1,11 @@
 import {defineConfig} from "vite";
 import laravel from "laravel-vite-plugin";
 import react from '@vitejs/plugin-react';
-import {visualizer} from 'rollup-plugin-visualizer'
+import {visualizer} from 'rollup-plugin-visualizer';
+import writeExtra from "@quansitech/antd-admin/dist/lib/writeExtra.js";
+
+// 写extra.ts文件
+writeExtra();
 
 export default defineConfig(() => {
     return {

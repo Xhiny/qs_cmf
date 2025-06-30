@@ -57,10 +57,27 @@ npm run build:backend
 4. controller中返回inertia响应
 
 ```php
+use Qscmf\Lib\Inertia\Inertia;
+
 $this->inertia('Index', [
     // 页面的props
     'foo' => 'bar'
 ])
+
+// 或使用全局 Inertia 类
+Inertia::render('Index', [
+    // 页面的props
+    'foo' => 'bar'
+]);
+```
+
+若想在请求生命周期中的其它地方向Inertia响应中添加数据，可参考如下代码：
+
+```php
+use Qscmf\Lib\Inertia\Inertia;
+
+Inertia::share("【参数名，可支持 . 符号】", "【参数值】");
+
 ```
 
 ### 开发
